@@ -1,20 +1,18 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
-
-import { AppSidebar } from "@/components/app-sidebar"
-import { Separator } from "@/components/ui/separator"
+import { AppSidebar } from '@/components/app-sidebar'
+import { Separator } from '@/components/ui/separator'
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
-
+} from '@/components/ui/sidebar'
 
 export const Route = createFileRoute('/dashboard')({
   component: RouteComponent,
 })
 
-export default function RouteComponent() {
+function RouteComponent() {
   return (
     <SidebarProvider>
       <AppSidebar />

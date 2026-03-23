@@ -15,12 +15,16 @@ import {
 } from "#/components/ui/field"
 import { Input } from "#/components/ui/input"
 import { signupSchema } from "#/schema/auth"
-import { Link } from "@tanstack/react-router"
+import { Link, useNavigate } from "@tanstack/react-router"
 import { useForm } from "@tanstack/react-form"
 import { toast } from "sonner"
 import { authClient } from "#/lib/auth-client"
+import { useTransition } from "react"
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
+
+  const [isPending, startTransition] = useTransition()
+  const naviagate = useNavigate()
 
 
   const form = useForm({
@@ -32,25 +36,27 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
     validators: {
       onSubmit: signupSchema,
     },
-    onSubmit: async ({ value }) => {
-      await authClient.signUp.email({
-        name: value.fullName,
-        email: value.email,
-        password: value.password,
-        callbackURL: '/dashboard',
-        fetchOptions: {
-          onSuccess: () => {
-            toast.success('Account created successfully!');
-          },
-          onError: ({ error }) => {
-            toast.error(error.message);
-          },
-        }
+    onSubmit: ({ value }) => {
+      startTransition(async () => {
+        await authClient.signUp.email({
+          name: value.fullName,
+          email: value.email,
+          password: value.password,
+          // callbackURL: '/dashboard',
+          fetchOptions: {
+            onSuccess: () => {
+              toast.success('Account created successfully!');
+              naviagate({ to: '/dashboard' })
+            },
+            onError: ({ error }) => {
+              toast.error(error.message);
+            },
+          }
+        })
       })
-
-    },
-  })
-
+    }
+  }
+  )
 
 
   return (
@@ -143,7 +149,9 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
             />
             <FieldGroup>
               <Field>
-                <Button type="submit">Create Account</Button>
+                <Button type="submit" disabled={isPending}>
+                  {isPending ? 'Creating account...' : 'Create Account'}
+                </Button>
                 <FieldDescription className="px-6 text-center">
                   Already have an account? <Link to="/login">Sign in</Link>
                 </FieldDescription>

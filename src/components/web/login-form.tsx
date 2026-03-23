@@ -20,9 +20,11 @@ import { useForm } from "@tanstack/react-form"
 import { toast } from "sonner"
 import { loginSchema } from "#/schema/auth"
 import { authClient } from "#/lib/auth-client"
+import { useTransition } from "react"
 
 
 export function LoginForm() {
+  const [isPending, startTransition] = useTransition();
 
 
   const form = useForm({
@@ -33,21 +35,22 @@ export function LoginForm() {
     validators: {
       onSubmit: loginSchema,
     },
-    onSubmit: async ({ value }) => {
-      await authClient.signIn.email({
-        email: value.email,
-        password: value.password,
-        callbackURL: '/dashboard',
-        fetchOptions: {
-          onSuccess: () => {
-            toast.success('Logged in successfully!')
-          },
-          onError: ({ error }) => {
-            toast.error(error.message)
-          },
-        }
-      }
-      )
+    onSubmit: ({ value }) => {
+      startTransition(async () => {
+        await authClient.signIn.email({
+          email: value.email,
+          password: value.password,
+          callbackURL: '/dashboard',
+          fetchOptions: {
+            onSuccess: () => {
+              toast.success('Logged in successfully!')
+            },
+            onError: ({ error }) => {
+              toast.error(error.message)
+            },
+          }
+        })
+      })
     },
   })
 
@@ -120,7 +123,9 @@ export function LoginForm() {
               />
 
               <Field>
-                <Button type="submit">Login</Button>
+                <Button type="submit" disabled={isPending}>
+                  {isPending ? 'Logging in...' : 'Login'}
+                </Button>
                 <FieldDescription className="text-center">
                   Don&apos;t have an account? <Link to="/signup">Sign up</Link>
                 </FieldDescription>

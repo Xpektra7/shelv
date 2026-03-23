@@ -20,7 +20,7 @@ export function NavPrimary({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton size="sm" className="h-fit" render={
-                <Link to={item.url} className="flex items-center gap-3">
+                <Link to={item.url} className="flex items-center gap-3" activeOptions={item.activeOptions}>
                   {item.icon}
                   {!isMobile && item.title}
                 </Link>
@@ -29,6 +29,6 @@ export function NavPrimary({
           ))}
         </SidebarMenu>
       </SidebarGroupContent>
-    </SidebarGroup>
+    </SidebarGroup >
   )
 }

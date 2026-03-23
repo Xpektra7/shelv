@@ -1,7 +1,6 @@
 "use client"
-
-import { authClient } from "#/lib/auth-client"
-import { Avatar, AvatarFallback  } from "@/components/ui/avatar"
+import { handleSignOut } from "#/lib/utils"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -13,22 +12,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { DashboardCircleIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { Link } from "@tanstack/react-router"
-import { toast } from "sonner"
+import { Link, useNavigate } from "@tanstack/react-router"
 
 export function User({ name }: { name?: string }) {
-  const handleSignOut = () => {
-    authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          toast.success('Logged out successfully!')
-        },
-        onError: ({ error }) => {
-          toast.error(error.message)
-        },
-      }
-    })
-  }
+  const navigate = useNavigate()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger render={
@@ -46,7 +33,7 @@ export function User({ name }: { name?: string }) {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem variant="destructive" onClick={handleSignOut}>
+          <DropdownMenuItem variant="destructive" onClick={async () => await handleSignOut(navigate)}>
             Log out
           </DropdownMenuItem>
         </DropdownMenuGroup>
