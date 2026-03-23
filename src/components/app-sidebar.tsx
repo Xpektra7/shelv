@@ -1,9 +1,7 @@
 import * as React from "react"
 
-import { NavMain } from "#/components/nav-main"
-import { NavProjects } from "#/components/nav-projects"
+import { NavPrimary } from "#/components/nav-primary"
 import { NavUser } from "#/components/nav-user"
-import { TeamSwitcher } from "#/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -14,8 +12,9 @@ import {
   SidebarRail,
 } from "#/components/ui/sidebar"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { LayoutBottomIcon, AudioWave01Icon, CommandIcon, ComputerTerminalIcon, RoboticIcon, BookOpen02Icon, Settings05Icon, CropIcon, PieChartIcon, MapsIcon, Bookmark02Icon } from "@hugeicons/core-free-icons"
+import { CropIcon, PieChartIcon, Bookmark02Icon, FileImportIcon, MapsIcon } from "@hugeicons/core-free-icons"
 import { Link } from "@tanstack/react-router"
+import type { NavPrimaryProps } from "#/lib/types"
 
 // This is sample data.
 const data = {
@@ -49,6 +48,25 @@ const data = {
   ],
 }
 
+const navItems: NavPrimaryProps[] = [
+  {
+    title: "Items",
+    url: "/dashboard/items",
+    icon: <HugeiconsIcon icon={Bookmark02Icon} strokeWidth={2} />,
+  },
+  {
+    title: "Import",
+    url: "/dashboard/import",
+    icon: <HugeiconsIcon icon={FileImportIcon} strokeWidth={2} />,
+  },
+  {
+    title: "Discover",
+    url: "/dashboard/discover",
+    icon: <HugeiconsIcon icon={MapsIcon} strokeWidth={2} />,
+  }
+
+]
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -56,13 +74,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarContent>
           <SidebarMenu>
             <SidebarMenuButton size="lg" className="h-fit" render={
-              <Link to="/">
+              <Link to="/" className="flex items-center gap-3">
                 <div className="flex p-3 bg-primary rounded-md">
                   <HugeiconsIcon icon={Bookmark02Icon} className="size-16" />
                 </div>
                 <div className="flex flex-col">
                   <h1 className="font-heading text-lg">Recall</h1>
-                  <p className="text-xs">AI-powered recall assistant</p>
+                  <p className="text-xs">Your AI Knowledge Base</p>
                 </div>
               </Link>
             }>
@@ -71,7 +89,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarContent>
       </SidebarHeader>
       <SidebarContent>
-        <NavProjects projects={data.projects} />
+        <NavPrimary items={navItems} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
