@@ -19,7 +19,7 @@ export const handleSignOut = async (
         toast.success('Logged out successfully!')
       },
       onError: ({ error }) => {
-        toast.error(error.message)
+        toast.error(error.message || 'Error Occured!')
       },
     },
   })

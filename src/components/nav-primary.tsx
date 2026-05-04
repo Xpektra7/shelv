@@ -5,13 +5,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "#/components/ui/sidebar"
-import type { NavPrimaryProps } from "#/lib/types"
-import { Link } from "@tanstack/react-router"
+} from '#/components/ui/sidebar'
+import type { NavPrimaryProps } from '#/lib/types'
+import { Link } from '@tanstack/react-router'
 
-export function NavPrimary({
-  items,
-}: { items: NavPrimaryProps[] }) {
+export function NavPrimary({ items }: { items: NavPrimaryProps[] }) {
   const { isMobile } = useSidebar()
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -19,16 +17,27 @@ export function NavPrimary({
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton size="sm" className="h-fit" render={
-                <Link to={item.url} className="flex items-center gap-3" activeOptions={item.activeOptions}>
-                  {item.icon}
-                  {!isMobile && item.title}
-                </Link>
-              } />
+              <SidebarMenuButton
+                size="sm"
+                className="h-fit"
+                render={
+                  <Link
+                    activeProps={{
+                      'data-active': true,
+                    }}
+                    to={item.url}
+                    className="flex items-center gap-3"
+                    activeOptions={item.activeOptions}
+                  >
+                    {item.icon}
+                    {!isMobile && item.title}
+                  </Link>
+                }
+              />
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
       </SidebarGroupContent>
-    </SidebarGroup >
+    </SidebarGroup>
   )
 }

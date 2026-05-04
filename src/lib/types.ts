@@ -1,6 +1,7 @@
 export interface NavPrimaryProps {
   title: string
-  to: string
+  url: string
   icon: React.ReactNode
   activeOptions: { exact: boolean }
-}[]
+}
+;[]

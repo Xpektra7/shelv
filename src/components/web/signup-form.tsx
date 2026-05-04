@@ -1,37 +1,35 @@
-import { Button } from "#/components/ui/button"
+import { Button } from '#/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "#/components/ui/card"
+} from '#/components/ui/card'
 import {
   Field,
   FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "#/components/ui/field"
-import { Input } from "#/components/ui/input"
-import { signupSchema } from "#/schema/auth"
-import { Link, useNavigate } from "@tanstack/react-router"
-import { useForm } from "@tanstack/react-form"
-import { toast } from "sonner"
-import { authClient } from "#/lib/auth-client"
-import { useTransition } from "react"
+} from '#/components/ui/field'
+import { Input } from '#/components/ui/input'
+import { signupSchema } from '#/schema/auth'
+import { Link, useNavigate } from '@tanstack/react-router'
+import { useForm } from '@tanstack/react-form'
+import { toast } from 'sonner'
+import { authClient } from '#/lib/auth-client'
+import { useTransition } from 'react'
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
-
   const [isPending, startTransition] = useTransition()
   const naviagate = useNavigate()
 
-
   const form = useForm({
     defaultValues: {
-      fullName: "",
-      email: "",
-      password: "",
+      fullName: '',
+      email: '',
+      password: '',
     },
     validators: {
       onSubmit: signupSchema,
@@ -45,19 +43,17 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
           // callbackURL: '/dashboard',
           fetchOptions: {
             onSuccess: () => {
-              toast.success('Account created successfully!');
+              toast.success('Account created successfully!')
               naviagate({ to: '/dashboard' })
             },
             onError: ({ error }) => {
-              toast.error(error.message);
+              toast.error(error.message || 'Error Occured!')
             },
-          }
+          },
         })
       })
-    }
-  }
-  )
-
+    },
+  })
 
   return (
     <Card {...props}>
@@ -73,7 +69,6 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
             e.preventDefault()
             form.handleSubmit()
           }}
-
         >
           <FieldGroup>
             <form.Field
@@ -94,7 +89,9 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                       placeholder="Jane Doe"
                       autoComplete="off"
                     />
-                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
                   </Field>
                 )
               }}
@@ -118,7 +115,9 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                       type="email"
                       autoComplete="off"
                     />
-                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
                   </Field>
                 )
               }}
@@ -139,10 +138,12 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                       onChange={(e) => field.handleChange(e.target.value)}
                       aria-invalid={isInvalid}
                       placeholder="********"
-                      type='password'
+                      type="password"
                       autoComplete="off"
                     />
-                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                    {isInvalid && (
+                      <FieldError errors={field.state.meta.errors} />
+                    )}
                   </Field>
                 )
               }}

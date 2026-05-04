@@ -1,10 +1,6 @@
-"use client"
+'use client'
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "#/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,27 +9,21 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "#/components/ui/dropdown-menu"
+} from '#/components/ui/dropdown-menu'
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "#/components/ui/sidebar"
-import { HugeiconsIcon } from "@hugeicons/react"
-import { UnfoldMoreIcon, LogoutIcon } from "@hugeicons/core-free-icons"
-import { cn, handleSignOut } from "#/lib/utils"
-import { buttonVariants } from "./ui/button"
-import { useNavigate } from "@tanstack/react-router"
+} from '#/components/ui/sidebar'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { UnfoldMoreIcon, LogoutIcon } from '@hugeicons/core-free-icons'
+import { cn, handleSignOut } from '#/lib/utils'
+import { buttonVariants } from './ui/button'
+import { useNavigate } from '@tanstack/react-router'
+import type { User } from 'better-auth'
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string
-    email: string
-  }
-}) {
+export function NavUser({ user }: { user: User }) {
   const { isMobile } = useSidebar()
   const navigate = useNavigate()
   return (
@@ -46,17 +36,32 @@ export function NavUser({
             }
           >
             <Avatar>
-              <AvatarFallback>{user.name.split(' ').map((n: string) => n[0]).join('')}</AvatarFallback>
+              <AvatarImage
+                src={
+                  user.image ??
+                  `https://api.dicebear.com/9.x/dylan/svg?seed=${user.name}`
+                }
+              />
+              <AvatarFallback>
+                {user.name
+                  .split(' ')
+                  .map((n: string) => n[0])
+                  .join('')}
+              </AvatarFallback>
             </Avatar>
             <div className="grid flex-1 text-left text-sm leading-tight">
               <span className="truncate font-medium">{user.name}</span>
               <span className="truncate text-xs">{user.email}</span>
             </div>
-            <HugeiconsIcon icon={UnfoldMoreIcon} strokeWidth={2} className="ml-auto size-4" />
+            <HugeiconsIcon
+              icon={UnfoldMoreIcon}
+              strokeWidth={2}
+              className="ml-auto size-4"
+            />
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="min-w-56 rounded-md"
-            side={isMobile ? "bottom" : "right"}
+            side={isMobile ? 'bottom' : 'right'}
             align="end"
             sideOffset={4}
           >
@@ -64,7 +69,18 @@ export function NavUser({
               <DropdownMenuLabel className="p-0 font-normal">
                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                   <Avatar>
-                    <AvatarFallback>{user.name.split(' ').map((n: string) => n[0]).join('')}</AvatarFallback>
+                    <AvatarImage
+                      src={
+                        user.image ??
+                        `https://api.dicebear.com/9.x/dylan/svg?seed=${user.name}`
+                      }
+                    />
+                    <AvatarFallback>
+                      {user.name
+                        .split(' ')
+                        .map((n: string) => n[0])
+                        .join('')}
+                    </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-medium">{user.name}</span>
@@ -74,7 +90,13 @@ export function NavUser({
               </DropdownMenuLabel>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={async () => await handleSignOut(navigate)} className={cn(buttonVariants({ variant: "destructive" }), 'w-full justify-start!')}>
+            <DropdownMenuItem
+              onClick={async () => await handleSignOut(navigate)}
+              className={cn(
+                buttonVariants({ variant: 'destructive' }),
+                'w-full justify-start!',
+              )}
+            >
               <HugeiconsIcon icon={LogoutIcon} strokeWidth={2} />
               Log out
             </DropdownMenuItem>

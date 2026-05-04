@@ -11,68 +11,38 @@ import {
 } from '#/components/ui/sidebar'
 import { HugeiconsIcon } from '@hugeicons/react'
 import {
-  CropIcon,
-  PieChartIcon,
   Bookmark02Icon,
   FileImportIcon,
   MapsIcon,
 } from '@hugeicons/core-free-icons'
 import { Link, linkOptions } from '@tanstack/react-router'
 import type { NavPrimaryProps } from '#/lib/types'
-import { authClient } from "#/lib/auth-client"
-
-// This is sample data.
-const data = {
-  user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: 'https://avatar.vercel.sh/shadcn',
-  },
-  projects: [
-    {
-      name: 'Design Engineering',
-      url: '#',
-      icon: <HugeiconsIcon icon={CropIcon} strokeWidth={2} />,
-    },
-    {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: <HugeiconsIcon icon={PieChartIcon} strokeWidth={2} />,
-    },
-    {
-      name: 'Travel',
-      url: '#',
-      icon: <HugeiconsIcon icon={MapsIcon} strokeWidth={2} />,
-    },
-  ],
-}
+import type { User } from 'better-auth'
 
 const navItems: NavPrimaryProps[] = linkOptions([
   {
     title: 'Items',
-    to: '/dashboard/items',
+    url: '/dashboard/items',
     icon: <HugeiconsIcon icon={Bookmark02Icon} strokeWidth={2} />,
     activeOptions: { exact: false },
   },
   {
     title: 'Import',
-    to: '/dashboard/import',
+    url: '/dashboard/import',
     icon: <HugeiconsIcon icon={FileImportIcon} strokeWidth={2} />,
     activeOptions: { exact: false },
   },
   {
     title: 'Discover',
-    to: '/dashboard/discover',
+    url: '/dashboard/discover',
     icon: <HugeiconsIcon icon={MapsIcon} strokeWidth={2} />,
     activeOptions: { exact: false },
   },
 ])
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { data, isPending } = authClient.useSession()
-
+export function AppSidebar({ user }: { user: User }) {
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon">
       <SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
@@ -98,7 +68,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavPrimary items={navItems} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data ? { name: data.user.name, email: data.user.email } : { name: '', email: '' }} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

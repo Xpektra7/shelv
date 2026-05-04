@@ -1,36 +1,34 @@
-import { cn } from "#/lib/utils"
-import { Button } from "#/components/ui/button"
+import { cn } from '#/lib/utils'
+import { Button } from '#/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "#/components/ui/card"
+} from '#/components/ui/card'
 import {
   Field,
   FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "#/components/ui/field"
-import { Input } from "#/components/ui/input"
-import { Link } from "@tanstack/react-router"
-import { useForm } from "@tanstack/react-form"
-import { toast } from "sonner"
-import { loginSchema } from "#/schema/auth"
-import { authClient } from "#/lib/auth-client"
-import { useTransition } from "react"
-
+} from '#/components/ui/field'
+import { Input } from '#/components/ui/input'
+import { Link } from '@tanstack/react-router'
+import { useForm } from '@tanstack/react-form'
+import { toast } from 'sonner'
+import { loginSchema } from '#/schema/auth'
+import { authClient } from '#/lib/auth-client'
+import { useTransition } from 'react'
 
 export function LoginForm() {
-  const [isPending, startTransition] = useTransition();
-
+  const [isPending, startTransition] = useTransition()
 
   const form = useForm({
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
     validators: {
       onSubmit: loginSchema,
@@ -46,17 +44,16 @@ export function LoginForm() {
               toast.success('Logged in successfully!')
             },
             onError: ({ error }) => {
-              toast.error(error.message)
+              toast.error(error.message || 'Error Occured!')
             },
-          }
+          },
         })
       })
     },
   })
 
-
   return (
-    <div className={cn("flex flex-col gap-6", '')}>
+    <div className={cn('flex flex-col gap-6', '')}>
       <Card>
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
@@ -91,7 +88,9 @@ export function LoginForm() {
                         type="email"
                         autoComplete="off"
                       />
-                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                      {isInvalid && (
+                        <FieldError errors={field.state.meta.errors} />
+                      )}
                     </Field>
                   )
                 }}
@@ -116,7 +115,9 @@ export function LoginForm() {
                         type="password"
                         autoComplete="off"
                       />
-                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                      {isInvalid && (
+                        <FieldError errors={field.state.meta.errors} />
+                      )}
                     </Field>
                   )
                 }}
@@ -134,6 +135,6 @@ export function LoginForm() {
           </form>
         </CardContent>
       </Card>
-    </div >
+    </div>
   )
 }
