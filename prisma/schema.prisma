@@ -8,11 +8,6 @@ datasource db {
   provider = "postgresql"
 }
 
-model Todo {
-  id        Int      @id @default(autoincrement())
-  title     String
-  createdAt DateTime @default(now())
-}
 
 model User {
   id            String    @id
@@ -24,6 +19,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  savedItems  SavedItem[]
 
   @@unique([email])
   @@map("user")
@@ -75,4 +71,32 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+model SavedItem{
+ id String @id @default(uuid())
+ url String
+
+ title String?
+ content String? // Clean md from firecrawl
+ summary String? // AI generated summary
+ tags String[] // AI extracted tags
+ author String
+
+ status ItemsStatus @default(PENDING)
+
+ publishedAt DateTime?
+ ogImage String
+
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String?
+}
+
+enum ItemsStatus{
+  PENDING // Just saved, not yet scraped
+  PROCESSING // Firecrawl is working
+  COMPLETED // Ready to view
+  FAILED // Scraping failed
 }
