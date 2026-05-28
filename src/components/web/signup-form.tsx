@@ -65,6 +65,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
       </CardHeader>
       <CardContent>
         <form
+          method="post"
           onSubmit={(e) => {
             e.preventDefault()
             form.handleSubmit()

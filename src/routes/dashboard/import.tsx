@@ -1,3 +1,4 @@
+import { useState, useTransition } from 'react'
 import { Button } from '#/components/ui/button'
 import {
   Card,
@@ -9,12 +10,16 @@ import {
 import {
   Field,
   FieldError,
+  FieldContent,
+  FieldDescription,
   FieldGroup,
   FieldLabel,
 } from '#/components/ui/field'
+import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '#/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/components/ui/tabs'
-import { scrapeUrlFn } from '#/data/item'
+import { bulkScrapeUrlFn, mapUrlFn, scrapeUrlFn } from '#/data/item'
+import type { BulkScrapeProgress } from '#/data/item'
 import { bulkImport, importSchema } from '#/schema/import'
 import {
   Globe02Icon,
@@ -22,9 +27,11 @@ import {
   LoaderCircle,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
+import type { SearchResultWeb } from '@mendable/firecrawl-js'
 import { useForm } from '@tanstack/react-form'
 import { createFileRoute } from '@tanstack/react-router'
-import { useTransition } from 'react'
+import { toast } from 'sonner'
+import { Progress } from '#/components/ui/progress'
 
 export const Route = createFileRoute('/dashboard/import')({
   component: RouteComponent,
@@ -32,6 +39,72 @@ export const Route = createFileRoute('/dashboard/import')({
 
 function RouteComponent() {
   const [isPending, startTransition] = useTransition()
+  const [bulkImportPending, startBulkImport] = useTransition()
+  const [progress, setProgress] = useState<BulkScrapeProgress | null>(null)
+  const [discoveredLinks, setDiscoveredLinks] = useState<
+    Array<SearchResultWeb>
+  >([])
+
+  const [selectedLinks, setSelectedLinks] = useState<Set<string>>(new Set())
+
+  const handleSelectAll = () => {
+    if (selectedLinks.size === discoveredLinks.length) {
+      setSelectedLinks(new Set())
+    } else {
+      setSelectedLinks(new Set(discoveredLinks.map((link) => link.url)))
+    }
+  }
+
+  const handleToggleLink = (url: string) => {
+    const newSelected = new Set(selectedLinks)
+
+    if (newSelected.has(url)) {
+      newSelected.delete(url)
+    } else {
+      newSelected.add(url)
+    }
+
+    setSelectedLinks(newSelected)
+  }
+
+  const handleBulkImport = () => {
+    startBulkImport(async () => {
+      if (selectedLinks.size === 0) {
+        toast.error('Please select atleast one URL to import.')
+        return
+      }
+
+      setProgress({
+        total: selectedLinks.size,
+        completed: 0,
+        url: '',
+        status: 'success',
+      })
+
+      let successCount = 0
+      let failedCount = 0
+
+      // await bulkScrapeUrlFn({
+      //   data: { urls: Array.from(selectedLinks) },
+      // })
+      //
+
+      for await (const update of await bulkScrapeUrlFn({
+        data: { urls: Array.from(selectedLinks) },
+      })) {
+        update.status === 'success' ? successCount++ : failedCount++
+
+        setProgress(update)
+      }
+
+      setProgress(null)
+      failedCount > 0
+        ? toast.success(`Imported ${selectedLinks.size} URLs successfully.`)
+        : toast.success(
+            `Imported ${successCount} of ${selectedLinks.size} URLs successfully.`,
+          )
+    })
+  }
 
   const singleForm = useForm({
     defaultValues: {
@@ -44,6 +117,7 @@ function RouteComponent() {
       startTransition(async () => {
         console.log(value)
         await scrapeUrlFn({ data: value })
+        toast.success('URL Scraped Successfully!')
       })
     },
   })
@@ -58,6 +132,9 @@ function RouteComponent() {
     onSubmit: ({ value }) => {
       startTransition(async () => {
         console.log(value)
+        const links = (await mapUrlFn({ data: value })) || []
+        toast.success('Mapped URL Successfully!')
+        setDiscoveredLinks(links)
       })
     },
   })
@@ -243,6 +320,91 @@ function RouteComponent() {
                     )}
                   </Button>
                 </form>
+
+                {/* Discovered URL list */}
+                {discoveredLinks.length > 0 && (
+                  <div className="space-y-4 mt-8">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-medium">
+                        Found {discoveredLinks.length} URLs
+                      </p>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handleSelectAll}
+                      >
+                        {selectedLinks.size === discoveredLinks.length
+                          ? 'Deselect All'
+                          : 'Select All'}
+                      </Button>
+                    </div>
+                    <FieldGroup className="max-h-100 overflow-y-auto p-8 border border-border rounded-md w-full ">
+                      {discoveredLinks.map((link) => (
+                        <Field orientation="horizontal" key={link.url}>
+                          <Checkbox
+                            id={link.title}
+                            name={link.title}
+                            checked={selectedLinks.has(link.url)}
+                            onCheckedChange={() => handleToggleLink(link.url)}
+                          />
+                          <FieldContent>
+                            <FieldLabel
+                              htmlFor={link.title}
+                              className="font-heading"
+                            >
+                              {link.title}
+                            </FieldLabel>
+                            <FieldDescription>
+                              {link.description}
+                            </FieldDescription>
+                          </FieldContent>
+                        </Field>
+                      ))}
+                    </FieldGroup>
+
+                    {progress && (
+                      <Field className="w-full">
+                        <FieldLabel htmlFor="progress-upload">
+                          <span>
+                            Importing: {progress.completed} / {progress.total}
+                          </span>
+                          <span className="ml-auto">
+                            {Math.round(progress.completed / progress.total) *
+                              100}
+                            %
+                          </span>
+                        </FieldLabel>
+                        <Progress
+                          value={
+                            Math.round(progress.completed / progress.total) *
+                            100
+                          }
+                          id="progress-upload"
+                        />
+                      </Field>
+                    )}
+
+                    <Button
+                      className="w-full"
+                      disabled={bulkImportPending}
+                      onClick={handleBulkImport}
+                    >
+                      {bulkImportPending ? (
+                        <>
+                          <HugeiconsIcon
+                            icon={LoaderCircle}
+                            className="animate-spin"
+                          />
+                          {progress
+                            ? `Importing: ${progress.completed} / ${progress.total} `
+                            : 'Importing...'}
+                        </>
+                      ) : (
+                        `Import ${selectedLinks.size} URLs`
+                      )}
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>

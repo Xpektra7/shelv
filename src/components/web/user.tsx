@@ -30,8 +30,8 @@ export function User({ user }: { user: User }) {
                 }
               />
               <AvatarFallback>
-                {user.names
-                  ?.split(' ')
+                {user.name
+                  .split(' ')
                   .map((n: string) => n[0])
                   .join('')}
               </AvatarFallback>

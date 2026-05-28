@@ -15,7 +15,7 @@ import {
   FieldLabel,
 } from '#/components/ui/field'
 import { Input } from '#/components/ui/input'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { useForm } from '@tanstack/react-form'
 import { toast } from 'sonner'
 import { loginSchema } from '#/schema/auth'
@@ -24,6 +24,7 @@ import { useTransition } from 'react'
 
 export function LoginForm() {
   const [isPending, startTransition] = useTransition()
+  const navigate = useNavigate()
 
   const form = useForm({
     defaultValues: {
@@ -42,6 +43,7 @@ export function LoginForm() {
           fetchOptions: {
             onSuccess: () => {
               toast.success('Logged in successfully!')
+              navigate({ to: '/dashboard' })
             },
             onError: ({ error }) => {
               toast.error(error.message || 'Error Occured!')
@@ -63,6 +65,7 @@ export function LoginForm() {
         </CardHeader>
         <CardContent>
           <form
+            method="post"
             onSubmit={(e) => {
               e.preventDefault()
               form.handleSubmit()

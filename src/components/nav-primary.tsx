@@ -10,7 +10,7 @@ import type { NavPrimaryProps } from '#/lib/types'
 import { Link } from '@tanstack/react-router'
 
 export function NavPrimary({ items }: { items: NavPrimaryProps[] }) {
-  const { isMobile } = useSidebar()
+  // const { isMobile } = useSidebar()
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupContent>
@@ -18,7 +18,7 @@ export function NavPrimary({ items }: { items: NavPrimaryProps[] }) {
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
-                size="sm"
+                size="lg"
                 className="h-fit"
                 render={
                   <Link
@@ -26,11 +26,11 @@ export function NavPrimary({ items }: { items: NavPrimaryProps[] }) {
                       'data-active': true,
                     }}
                     to={item.url}
-                    className="flex items-center gap-3"
+                    className="flex items-center gap-3 text-foreground"
                     activeOptions={item.activeOptions}
                   >
                     {item.icon}
-                    {!isMobile && item.title}
+                    {item.title}
                   </Link>
                 }
               />

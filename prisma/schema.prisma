@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -8,18 +7,17 @@ datasource db {
   provider = "postgresql"
 }
 
-
 model User {
-  id            String    @id
+  id            String      @id
   name          String
   email         String
-  emailVerified Boolean   @default(false)
+  emailVerified Boolean     @default(false)
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
   sessions      Session[]
   accounts      Account[]
-  savedItems  SavedItem[]
+  savedItems    SavedItem[]
 
   @@unique([email])
   @@map("user")
@@ -73,28 +71,28 @@ model Verification {
   @@map("verification")
 }
 
-model SavedItem{
- id String @id @default(uuid())
- url String
+model SavedItem {
+  id  String @id @default(uuid())
+  url String
 
- title String?
- content String? // Clean md from firecrawl
- summary String? // AI generated summary
- tags String[] // AI extracted tags
- author String
+  title   String?
+  content String? // Clean md from firecrawl
+  summary String? // AI generated summary
+  tags    String[] // AI extracted tags
+  author  String?
 
- status ItemsStatus @default(PENDING)
+  status ItemsStatus @default(PENDING)
 
- publishedAt DateTime?
- ogImage String
+  publishedAt DateTime?
+  ogImage     String?
 
- createdAt DateTime @default(now())
- updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String?
 }
 
-enum ItemsStatus{
+enum ItemsStatus {
   PENDING // Just saved, not yet scraped
   PROCESSING // Firecrawl is working
   COMPLETED // Ready to view

@@ -5,5 +5,5 @@ export const firecrawl = new Firecrawl({
   apiKey: process.env.FIRECRAWL_API_KEY,
 })
 
-// Scrape a website:
-firecrawl.scrape('firecrawl.dev')
+// // Scrape a website:
+// firecrawl.scrape('firecrawl.dev')

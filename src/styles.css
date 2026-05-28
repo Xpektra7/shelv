@@ -5,6 +5,8 @@
 @import '@fontsource-variable/montserrat';
 @import '@fontsource-variable/lora';
 
+@source "../node_modules/streamdown/dist/*.js";
+
 /* @custom-variant dark (&:is(.dark *));
 @plugin "@tailwindcss/typography";
 

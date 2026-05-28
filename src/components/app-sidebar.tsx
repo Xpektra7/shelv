@@ -23,19 +23,19 @@ const navItems: NavPrimaryProps[] = linkOptions([
   {
     title: 'Items',
     url: '/dashboard/items',
-    icon: <HugeiconsIcon icon={Bookmark02Icon} strokeWidth={2} />,
+    icon: <HugeiconsIcon icon={Bookmark02Icon} strokeWidth={2} className='size-6' />,
     activeOptions: { exact: false },
   },
   {
     title: 'Import',
     url: '/dashboard/import',
-    icon: <HugeiconsIcon icon={FileImportIcon} strokeWidth={2} />,
+    icon: <HugeiconsIcon icon={FileImportIcon} strokeWidth={2} className='size-6' />,
     activeOptions: { exact: false },
   },
   {
     title: 'Discover',
     url: '/dashboard/discover',
-    icon: <HugeiconsIcon icon={MapsIcon} strokeWidth={2} />,
+    icon: <HugeiconsIcon icon={MapsIcon} strokeWidth={2} className='size-6' />,
     activeOptions: { exact: false },
   },
 ])
@@ -48,11 +48,11 @@ export function AppSidebar({ user }: { user: User }) {
           <SidebarMenu>
             <SidebarMenuButton
               size="lg"
-              className="h-fit"
+              className="h-full"
               render={
                 <Link to="/" className="flex items-center gap-3">
-                  <div className="flex p-3 bg-primary rounded-md">
-                    <HugeiconsIcon icon={Bookmark02Icon} className="size-16" />
+                  <div className="grid place-items-center h-10  aspect-square bg-primary rounded-md">
+                    <HugeiconsIcon icon={Bookmark02Icon} />
                   </div>
                   <div className="flex flex-col">
                     <h1 className="font-heading text-lg">Recall</h1>
