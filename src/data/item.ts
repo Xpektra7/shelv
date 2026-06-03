@@ -4,9 +4,9 @@ import {
   bulkImport,
   bulkSchema,
   discoverSchema,
-  extractSchema,
   importSchema,
 } from '#/schema/import'
+import type { extractSchema } from '#/schema/import'
 import { createServerFn } from '@tanstack/react-start'
 import z from 'zod'
 import { authFnMiddleware } from '#/middlewares/auth'
@@ -42,7 +42,8 @@ export const scrapeUrlFn = createServerFn({ method: 'POST' })
           'markdown',
           {
             type: 'json',
-            schema: extractSchema,
+            // schema: extractSchema,
+            prompt: 'please extract the author and also publishedAt timestamp',
           },
         ],
         location: {
@@ -143,7 +144,9 @@ export const bulkScrapeUrlFn = createServerFn({ method: 'POST' })
             'markdown',
             {
               type: 'json',
-              schema: extractSchema,
+              // schema: extractSchema,
+              prompt:
+                'please extract the author and also publishedAt timestamp',
             },
           ],
           location: {
