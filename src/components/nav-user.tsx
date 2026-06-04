@@ -24,18 +24,22 @@ import { useNavigate } from '@tanstack/react-router'
 import type { User } from 'better-auth'
 
 export function NavUser({ user }: { user: User }) {
-  const { isMobile } = useSidebar()
+  const { isMobile, state } = useSidebar()
   const navigate = useNavigate()
+  const collapsed = state === 'collapsed'
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
-              <SidebarMenuButton size="lg" className="aria-expanded:bg-muted" />
+              <SidebarMenuButton
+                size="lg"
+                className="aria-expanded:bg-muted group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-0!"
+              />
             }
           >
-            <Avatar>
+            <Avatar className={collapsed ? 'size-8' : undefined}>
               <AvatarImage
                 src={
                   user.image ??
@@ -49,14 +53,14 @@ export function NavUser({ user }: { user: User }) {
                   .join('')}
               </AvatarFallback>
             </Avatar>
-            <div className="grid flex-1 text-left text-sm leading-tight">
+            <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
               <span className="truncate font-medium">{user.name}</span>
               <span className="truncate text-xs">{user.email}</span>
             </div>
             <HugeiconsIcon
               icon={UnfoldMoreIcon}
               strokeWidth={2}
-              className="ml-auto size-4"
+              className="ml-auto size-4 group-data-[collapsible=icon]:hidden"
             />
           </DropdownMenuTrigger>
           <DropdownMenuContent

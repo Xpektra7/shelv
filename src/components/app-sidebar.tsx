@@ -52,22 +52,26 @@ export function AppSidebar({ user }: { user: User }) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            >
-              <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-primary text-sidebar-primary-foreground">
-                <HugeiconsIcon
-                  icon={Bookmark01Icon}
-                  size={4}
-                  className="size-4!"
-                />
-              </div>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">Shelv</span>
-                <span className="truncate text-xs">Your AI Knowledge Base</span>
-              </div>
-            </SidebarMenuButton>
+            <Link to="/">
+              <SidebarMenuButton
+                size="lg"
+                className="cursor-pointer data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-0!"
+              >
+                <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-primary text-sidebar-primary-foreground">
+                  <HugeiconsIcon
+                    icon={Bookmark01Icon}
+                    size={4}
+                    className="size-4!"
+                  />
+                </div>
+                <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
+                  <span className="truncate font-medium">Shelv</span>
+                  <span className="truncate text-xs">
+                    Your AI Knowledge Base
+                  </span>
+                </div>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
