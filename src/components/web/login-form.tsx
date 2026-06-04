@@ -39,11 +39,11 @@ export function LoginForm() {
         await authClient.signIn.email({
           email: value.email,
           password: value.password,
-          callbackURL: '/dashboard',
+          // callbackURL: '/dashboard/items',
           fetchOptions: {
             onSuccess: () => {
               toast.success('Logged in successfully!')
-              navigate({ to: '/dashboard' })
+              navigate({ to: '/dashboard/items' })
             },
             onError: ({ error }) => {
               toast.error(error.message || 'Error Occured!')

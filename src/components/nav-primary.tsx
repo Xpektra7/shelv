@@ -10,7 +10,7 @@ import type { NavPrimaryProps } from '#/lib/types'
 import { Link } from '@tanstack/react-router'
 
 export function NavPrimary({ items }: { items: NavPrimaryProps[] }) {
-  // const { isMobile } = useSidebar()
+  const { isMobile } = useSidebar()
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupContent>

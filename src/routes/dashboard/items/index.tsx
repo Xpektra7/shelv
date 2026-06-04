@@ -28,11 +28,11 @@ export const Route = createFileRoute('/dashboard/items/')({
   head: () => ({
     meta: [
       {
-        title: 'Saved Items | Recall',
+        title: 'Saved Items | Shelv',
       },
       {
         property: 'og:title',
-        comtent: 'Saved Items | Recall',
+        comtent: 'Saved Items | Shelv',
       },
     ],
   }),

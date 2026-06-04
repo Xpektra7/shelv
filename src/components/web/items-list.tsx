@@ -115,7 +115,7 @@ export default function ItemsList({
         {filteredItems.map((item) => (
           <Card
             key={item.id}
-            className="group overflow-hidden transition-all pt-0"
+            className="group overflow-hidden transition-all pt-0 pb-2 bg-secondary"
           >
             <Link
               to={`/dashboard/items/$itemId`}
@@ -134,7 +134,7 @@ export default function ItemsList({
                   className="h-full w-full transition-transform duration-300 object-cover group-hover:scale-102"
                 />
               </div>
-              <CardHeader className="pt-4">
+              <CardHeader className="py-4 h-fit bg-card m-2 mb-0 rounded-lg">
                 <div className="flex items-center justify-between gap-2">
                   <Badge
                     variant={
@@ -181,7 +181,7 @@ export default function ItemsList({
                 {item.tags.length > 0 && (
                   <div className="flex flex-wrap gap-2 pt-2">
                     {item.tags.slice(0, 4).map((tag) => (
-                      <Badge variant="secondary" key={tag}>
+                      <Badge variant="outline" key={tag}>
                         {tag}
                       </Badge>
                     ))}

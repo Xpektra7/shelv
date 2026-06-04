@@ -7,6 +7,7 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
+  SidebarMenuItem,
   SidebarRail,
 } from '#/components/ui/sidebar'
 import { HugeiconsIcon } from '@hugeicons/react'
@@ -23,19 +24,23 @@ const navItems: NavPrimaryProps[] = linkOptions([
   {
     title: 'Items',
     url: '/dashboard/items',
-    icon: <HugeiconsIcon icon={Bookmark02Icon} strokeWidth={2} className='size-6' />,
+    icon: (
+      <HugeiconsIcon icon={Bookmark02Icon} strokeWidth={2} className="size-6" />
+    ),
     activeOptions: { exact: false },
   },
   {
     title: 'Import',
     url: '/dashboard/import',
-    icon: <HugeiconsIcon icon={FileImportIcon} strokeWidth={2} className='size-6' />,
+    icon: (
+      <HugeiconsIcon icon={FileImportIcon} strokeWidth={2} className="size-6" />
+    ),
     activeOptions: { exact: false },
   },
   {
     title: 'Discover',
     url: '/dashboard/discover',
-    icon: <HugeiconsIcon icon={MapsIcon} strokeWidth={2} className='size-6' />,
+    icon: <HugeiconsIcon icon={MapsIcon} strokeWidth={2} className="size-6" />,
     activeOptions: { exact: false },
   },
 ])
@@ -44,25 +49,31 @@ export function AppSidebar({ user }: { user: User }) {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <SidebarContent>
-          <SidebarMenu>
+        <SidebarMenu>
+          <SidebarMenuItem>
             <SidebarMenuButton
               size="lg"
               className="h-full"
               render={
-                <Link to="/" className="flex items-center gap-3">
-                  <div className="grid place-items-center h-10  aspect-square bg-primary rounded-md">
-                    <HugeiconsIcon icon={Bookmark02Icon} />
+                <Link to="/" className="flex items-center gap-2">
+                  <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
+                    <HugeiconsIcon
+                      icon={Bookmark02Icon}
+                      className="size-4!"
+                      size={4}
+                    />
                   </div>
-                  <div className="flex flex-col">
-                    <h1 className="font-heading text-lg">Recall</h1>
-                    <p className="text-xs">Your AI Knowledge Base</p>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-medium">Shelv</span>
+                    <span className="truncate text-xs">
+                      Your AI Knowledge Base
+                    </span>
                   </div>
                 </Link>
               }
             ></SidebarMenuButton>
-          </SidebarMenu>
-        </SidebarContent>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <NavPrimary items={navItems} />
