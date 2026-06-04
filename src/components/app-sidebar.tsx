@@ -12,6 +12,7 @@ import {
 } from '#/components/ui/sidebar'
 import { HugeiconsIcon } from '@hugeicons/react'
 import {
+  Bookmark01Icon,
   Bookmark02Icon,
   FileImportIcon,
   MapsIcon,
@@ -53,25 +54,20 @@ export function AppSidebar({ user }: { user: User }) {
           <SidebarMenuItem>
             <SidebarMenuButton
               size="lg"
-              className="h-full"
-              render={
-                <Link to="/" className="flex items-center gap-2">
-                  <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
-                    <HugeiconsIcon
-                      icon={Bookmark02Icon}
-                      className="size-4!"
-                      size={4}
-                    />
-                  </div>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">Shelv</span>
-                    <span className="truncate text-xs">
-                      Your AI Knowledge Base
-                    </span>
-                  </div>
-                </Link>
-              }
-            ></SidebarMenuButton>
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            >
+              <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-primary text-sidebar-primary-foreground">
+                <HugeiconsIcon
+                  icon={Bookmark01Icon}
+                  size={4}
+                  className="size-4!"
+                />
+              </div>
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-medium">Shelv</span>
+                <span className="truncate text-xs">Your AI Knowledge Base</span>
+              </div>
+            </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
@@ -81,7 +77,6 @@ export function AppSidebar({ user }: { user: User }) {
       <SidebarFooter>
         <NavUser user={user} />
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>
   )
 }

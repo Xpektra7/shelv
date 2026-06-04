@@ -13,7 +13,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border px-4 py-4 mx-4">
       <nav className="flex justify-between">
         <div className="flex items-center gap-2">
-          <HugeiconsIcon icon={Bookmark02Icon} className="" />
+          <HugeiconsIcon icon={Bookmark02Icon} className="" size={24} />
           <span className="text-3xl font-heading">Shelv</span>
         </div>
         <div className="flex items-center gap-2">
