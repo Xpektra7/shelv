@@ -10,8 +10,8 @@ import { User } from './user'
 export default function Navbar() {
   const { data, isPending } = authClient.useSession()
   return (
-    <header className="sticky top-0 z-50 border-b border-border px-4 py-4 mx-4">
-      <nav className="flex justify-between">
+    <header className="bg-background px-16 flex h-32">
+      <nav className="w-full flex justify-between">
         <div className="flex items-center gap-2">
           <HugeiconsIcon icon={Bookmark02Icon} className="" size={24} />
           <span className="text-3xl font-heading">Shelv</span>
@@ -21,7 +21,9 @@ export default function Navbar() {
           {isPending ? (
             <span>...</span>
           ) : data?.session ? (
-            <User user={data.user} />
+            <>
+              <User user={data.user} />
+            </>
           ) : (
             <>
               <Link
