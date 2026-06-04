@@ -9,11 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from '#/components/ui/card'
-import { Separator } from '#/components/ui/separator'
 import { authClient } from '#/lib/auth-client'
 import { cn } from '#/lib/utils'
-import { HugeiconsIcon } from '@hugeicons/react'
-import { Bookmark02Icon } from '@hugeicons/core-free-icons'
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { buttonVariants } from '#/components/ui/button'
 
@@ -58,8 +55,9 @@ function App() {
     <main className="min-h-screen bg-background text-foreground">
       <Navbar />
 
+      {/* Hero */}
       <section className="mx-auto overflow-y-hidden relative w-full flex justify-center h-[calc(100vh-8rem)]">
-        <div className="max-w-4xl pt-32 text-center flex flex-col items-center">
+        <div className="max-w-4xl z-20 pt-32 text-center flex flex-col items-center">
           <h1 className="font-heading text-4xl leading-[0.95] text-center text-foreground sm:text-5xl lg:text-7xl">
             Save the web like a developer, not a browser.
           </h1>
@@ -71,7 +69,7 @@ function App() {
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
-              to={signedIn ? '/dashboard' : '/signup'}
+              to={signedIn ? '/dashboard/items' : '/signup'}
               className={cn(
                 buttonVariants({ variant: 'default', size: 'lg' }),
                 'px-8 ',
@@ -79,15 +77,18 @@ function App() {
             >
               {signedIn ? 'Go to dashboard' : 'Get started'}
             </Link>
-            <Link
-              to="/login"
-              className={cn(
-                buttonVariants({ variant: 'secondary', size: 'lg' }),
-                'px-8',
-              )}
-            >
-              Login
-            </Link>
+
+            {!signedIn && (
+              <Link
+                to="/login"
+                className={cn(
+                  buttonVariants({ variant: 'secondary', size: 'lg' }),
+                  'px-4',
+                )}
+              >
+                Login
+              </Link>
+            )}
           </div>
 
           <p className="mt-4 text-sm text-muted-foreground">
@@ -95,26 +96,35 @@ function App() {
           </p>
         </div>
         <GradientBars
-          animation="pulse"
-          duration={3}
+          animation="none"
           colors={['var(--primary)', 'transparent']}
           className="opacity-70"
         />
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-4 pb-20 md:px-6 md:pb-24 lg:px-8">
-        <div className="grid gap-4 md:grid-cols-3">
+      <section className="w-full h-48 relative mt-0.3">
+        <GradientBars
+          animation="none"
+          colors={['var(--primary)', 'transparent']}
+          className="opacity-70 rotate-180"
+        />
+      </section>
+      {/* Features */}
+
+      <section className="w-full p-4 pb-20 md:px-6 md:pb-24 lg:px-8">
+        <div className="max-w-7xl mx-auto w-full grid gap-8 md:grid-cols-3">
           {features.map((feature, index) => (
             <Card
               key={feature.title}
-              size="sm"
-              className="bg-card/70 backdrop-blur"
+              className="bg-card/70 backdrop-blur ring-4"
             >
-              <CardHeader className="pb-3">
+              <CardHeader className="">
                 <CardDescription className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                   0{index + 1}
                 </CardDescription>
-                <CardTitle className="text-lg">{feature.title}</CardTitle>
+                <CardTitle className="text-2xl -mb-4">
+                  {feature.title}
+                </CardTitle>
               </CardHeader>
               <CardContent className="text-sm leading-6 text-muted-foreground">
                 {feature.description}
@@ -124,8 +134,8 @@ function App() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-4 pb-20 md:px-6 md:pb-24 lg:px-8">
-        <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+      <section className="w-full p-4 pb-20 md:px-6 md:pb-24 lg:px-8">
+        <div className="max-w-7xl mx-auto grid gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">
               Built for speed
@@ -155,8 +165,8 @@ function App() {
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-6xl px-4 pb-24 md:px-6 lg:px-8">
-        <div className="rounded-[calc(var(--radius)*2)] border border-border bg-card/70 p-6 shadow-xs backdrop-blur md:p-8">
+      <section className="w-full p-4 pb-20 md:px-6 md:pb-24 lg:px-8">
+        <div className="mx-auto w-full max-w-7xl rounded-[calc(var(--radius)*2)] border border-border bg-card/70 p-6 shadow-xs backdrop-blur md:p-8">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="max-w-xl">
               <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">

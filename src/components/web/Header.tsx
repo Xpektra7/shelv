@@ -10,7 +10,7 @@ import { User } from './user'
 export default function Navbar() {
   const { data, isPending } = authClient.useSession()
   return (
-    <header className="bg-background px-16 flex h-32">
+    <header className="bg-background px-16 flex h-32 max-w-7xl mx-auto">
       <nav className="w-full flex justify-between">
         <div className="flex items-center gap-2">
           <HugeiconsIcon icon={Bookmark02Icon} className="" size={24} />

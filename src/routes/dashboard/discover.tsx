@@ -111,6 +111,8 @@ function RouteComponent() {
           data: value,
         })
 
+        console.log(result)
+
         setSearchResults(result)
       })
     },
@@ -224,13 +226,16 @@ function RouteComponent() {
                         Importing: {progress.completed} / {progress.total}
                       </span>
                       <span className="ml-auto">
-                        {Math.round(progress.completed / progress.total) * 100}%
+                        {Math.round(
+                          (progress.completed / progress.total) * 100,
+                        )}
+                        %
                       </span>
                     </FieldLabel>
                     <Progress
-                      value={
-                        Math.round(progress.completed / progress.total) * 100
-                      }
+                      value={Math.round(
+                        (progress.completed / progress.total) * 100,
+                      )}
                       id="progress-upload"
                     />
                   </Field>
